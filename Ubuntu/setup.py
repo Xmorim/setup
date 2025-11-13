@@ -154,6 +154,15 @@ def RunConfig():
 		sudo update-initramfs -u
 	""")
 
+	#Off blank screen
+	os.system('''
+	gsettings set org.gnome.desktop.session idle-delay 0
+	gsettings set org.gnome.desktop.screensaver lock-enabled false
+	''')
+
+	#Disable mouse accel
+	os.system('for id in $(xinput list --id-only | grep -v 2); do xinput set-prop $id "libinput Accel Profile Enabled" 0 1; done')
+
 if __name__ == '__main__':
 	RunTools()
 	RunApps()
