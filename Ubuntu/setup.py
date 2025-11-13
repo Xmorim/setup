@@ -108,6 +108,52 @@ def RunConfig():
         gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false	   
 	""")
 
+	#Config keyboard
+	#Open terminal alt+x
+	os.system("""
+		gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+		"['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name 'Abrir Terminal'
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command 'gnome-terminal'
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Alt>x'		   
+	""")
+
+
+
+	#Open folder Super+E
+	os.system("""
+		gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+		"['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name 'Abrir Arquivos'
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command 'nautilus'
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding '<Super>e'   
+	""")
+
+
+
+	#Interactive Screenshot
+	os.system("""
+		gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+		"['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/']"
+
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ name 'Captura de Tela'
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ command 'gnome-screenshot -i'
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ binding '<Alt>c'
+	""")
+
+	#Blacklist KVM
+	os.system("""
+		sudo modprobe -r kvm_intel
+		sudo modprobe -r kvm
+		sudo modprobe -r irqbypass
+		echo 'blacklist kvm' | sudo tee -a /etc/modprobe.d/blacklist.conf
+		echo 'blacklist kvm_amd' | sudo tee -a /etc/modprobe.d/blacklist.conf
+		echo 'blacklist kvm_intel' | sudo tee -a /etc/modprobe.d/blacklist.conf
+		sudo update-initramfs -u
+	""")
+
 if __name__ == '__main__':
 	RunTools()
 	RunApps()
